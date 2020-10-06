@@ -58,8 +58,8 @@ def with_numpy_2(length):
     print(np.sqrt(vector2))
 
 
-def with_numpy_3(dim_X, dim_y):
-    matrix = np.random.rand(dim_X, dim_y)
+def with_numpy_3(dim_x, dim_y):
+    matrix = np.random.rand(dim_x, dim_y)
     print("Matrix")
     print(matrix)
     print("Transpusa:")

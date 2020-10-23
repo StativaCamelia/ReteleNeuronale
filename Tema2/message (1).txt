@@ -1,0 +1,32 @@
+Intrebari:
+
+1.Am inteles ca o sa primim o lista de liste pentru verificare si noi trebuie sa calculam acuratetea.
+  Ca sa calculam acuratetea presupun ca primim intrarile si iesirile/labelurile corespunzatoare pentru fiecare instanta.
+  Ce structura o sa aiba mai exact lista de liste? Nu ar fi 2 liste de liste sau o lista de liste de liste cum e
+  in cazul seturilor de antrenament, validare si testare pe care le primim? Poti sa explici te rog structura exacta sau
+  sa dai un mic exemplu? (ca sa nu trebuiasca sa modificam la evaluare algoritmul in caz ca am inteles altfel).
+
+  Totodata, acuratetea trebuie sa o calculam pentru fiecare perceptron in parte? Sau este vorba de o acuratete totala?(de genul
+  o instanta este clasificata corect daca toti perceptronii au outputat 0 cu exceptia celui corespunzator cifrei)
+
+2.Cat de mult conteaza timpul de rulare? Exista penalizari pentru timpi de executie mai mari?
+
+3.Este recomandat/de asteptat sa folosim minibatch in loc de batch sau online training?
+  Intreb asta pentru ca am inteles de la curs ca o sa (putem sa) antrenam perceptronii in paralel.
+  Acest "in paralel" inseamna fizic in paralel adica cu un algoritm batch/minibatch in care facem mai multe threaduri, etc.
+  sau in paralel in sensul ca parcurgem setul de date o singura data cand antrenam perceptronii?
+
+
+
+Raspunsuri:
+
+1) vor fi 2 liste de liste; prima va fi o lista de instante de test (sub forma de lista cu 784 de numere, deci nu o matrice de 28*28), a doua cu label-uri (one hot vectors);
+ex: [[1,2,3], [4,5,6], [7,8,9]], [[1,0,0], [0,1,0], [0,0,1]]
+
+e vorba de o acuratete totala si trebuie sa folositi Adaline, asta insemnand ca predictia ansamblului de neuroni va fi data de perceptronul care prezice cea mai mare valoare; fiindca va dau sa comparati rezultatul cu un one hot vector, va trebui sa convertiti rezultatul perceptronilor tot intr-un one hot vector (1 pt pereptronul cu cea mai mare valoarea, 0 in rest) si apoi sa calculati acuratetea.
+
+2) Nu conteaza timpul de antrenament, dar o sa fie un punct din 15 daca folositi cat mai mult numpy si cat mai putin for-uri si liste; aici nu va dau mai multe detalii, trebuie sa va ganditi voi cum puteti modela antrenarea perceptronilor ca inmultiri de matrici si vectori;
+
+3) Da, e de preferat sa folositi minibatch; si eventual, contributiile fiecarei instante de antrenament din mini-batch pot fi calculate in paralel (cu threaduri), dar nu e necesar; ba din potriva, daca faceti asta, o sa vedeti ca nu mai puteti eficientiza la maxim update-ul pereptronilor (fiindca, de exemplu, daca aveti cate o instanta pe thread, nu o mai modelati ca pe o inmultire de matrici); deci e de preferat varianta cu matrici decat cea cu threaduri; 
+eventual, puteti face un mix din ele, adica sa spargeti minibatch-ul in alte minibatch-uri si fiecare thread sa faca niste inmultiri de matrici si apoi sa puneti cap la cap rezultatele, dar ar fi super hardcore, parerea mea, pentru o tema care are ca scop sa va dea un feeling despre cum se antreneaza perceptronii; in plus, thread-urile din python nu se executa propriu-zis in paralel fiindca interpretorul e unul singur, pe un singur proces, deci ar trebui sa lucrati cu mai multe procese si chiar e out of scope pt tema asta :))
+ltdr: mai bine inmultiri de matrici decat multi-thread; nu va complicati asa tare incat sa bagati thread-uri;

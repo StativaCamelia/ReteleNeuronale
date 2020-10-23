@@ -1,7 +1,6 @@
 import pickle, gzip
-import matplotlib.pyplot as plt
+from Percepron import Percepron
 
-from SimpleNeuralNetwork import SimpleNeuralNetwork
 
 def read_dataset():
     f = gzip.open('mnist.pkl.gz', 'rb')
@@ -14,6 +13,5 @@ def read_dataset():
 
 if __name__ == '__main__':
     train_set, valid_set, test_set = read_dataset()
-    features_set, label_set = train_set[0], train_set[1]
-    neural = SimpleNeuralNetwork(features_set, label_set)
-    print(neural.online_training())
+    neural = Percepron(train_set, test_set[0])
+    print(neural.test_individual_all())

@@ -14,12 +14,12 @@ def sigmoid_activation(z):
 
 class NeuralNetwork:
 	def __init__(self, train_set, test_set):
-		self.no_of_epochs = 200
+		self.no_of_epochs = 300
 		self.test_set_input, self.test_set_label = test_set[0], test_set[1]
 		self.train_set_input, self.train_set_label = train_set[0], train_set[1]
 		self.convert_in_one_hot_vector(self.train_set_label)
 		self.no_data_samples = len(self.train_set_input)
-		self.mini_batch_len = 2046
+		self.mini_batch_len = 2048
 		self.learning_rate, self.reg_param, self.momentum = 0.7, 0.1, 0.9
 		self.layers_sizes = [len(self.train_set_input[0]), 100, 10]
 		self.weights, self.velocity_weights = [], []
@@ -71,11 +71,6 @@ class NeuralNetwork:
 		activation_last = softmax_activation(net_input_last)
 		return activation_last
 
-	def cross_entropy(self, activation_last):
-		n = self.train_set_label.shape[0]
-		return (-1 / n) * np.sum(
-			np.multiply(self.train_set_label, np.log(activation_last)) + np.multiply(1 - self.train_set_label,
-																					 np.log(1 - activation_last)))
 
 	@staticmethod
 	def cross_entropy_derivative(output, target):
